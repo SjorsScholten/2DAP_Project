@@ -6,6 +6,8 @@ add_executable(game
 
         ${CMAKE_SOURCE_DIR}/src/Shader.cpp
         ${CMAKE_SOURCE_DIR}/src/Texture.cpp
+        ${CMAKE_SOURCE_DIR}/src/SpriteRenderer.cpp
+
         )
 
 find_package(glad CONFIG REQUIRED)
