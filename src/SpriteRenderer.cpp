@@ -25,7 +25,7 @@ void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec
     //Scale
     model = glm::scale(model, glm::vec3(size, 1.0f));
 
-    _shader.SetMartix4("model", model);
+    _shader.SetMatrix4("model", model);
     _shader.SetVector3f("spriteColor", color);
 
     glActiveTexture(GL_TEXTURE0);
@@ -39,6 +39,7 @@ void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec
 void SpriteRenderer::InitRenderData() {
     unsigned int VBO;
     float vertices[] = {
+            //position        //TexCoords
             0.f, 1.f, 0.f, 1.f,
             1.f, 0.f, 1.f, 0.f,
             0.f, 0.f, 0.f, 0.f,

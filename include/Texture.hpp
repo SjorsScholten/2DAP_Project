@@ -1,8 +1,8 @@
 #pragma once
 
 class Texture2D {
-public:
-    unsigned int id;
+private:
+    unsigned int _id;
     unsigned int width, height;
     unsigned int internalFormat;
     unsigned int imageFormat;
@@ -11,7 +11,12 @@ public:
     unsigned int filterMin;
     unsigned int filterMax;
 
+public:
     Texture2D();
+
+    const unsigned int &GetID() const{
+        return _id;
+    }
 
     void Generate(unsigned int width, unsigned int height, unsigned char *data);
 

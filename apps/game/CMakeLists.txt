@@ -13,7 +13,8 @@ add_executable(game
 find_package(glad CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_path(STB_INCLUDE_DIRS "stb.h")
 
 target_link_libraries(game
-        PRIVATE glad::glad glfw glm::glm
+        PRIVATE glad::glad glfw glm::glm ${STB_INCLUDE_DIRS}
 )
