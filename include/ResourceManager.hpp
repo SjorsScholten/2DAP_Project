@@ -2,10 +2,8 @@
 
 #include <map>
 #include <string>
-
-class Shader;
-
-class Texture2D;
+#include <Shader.hpp>
+#include <Texture.hpp>
 
 class ResourceManager {
 private:

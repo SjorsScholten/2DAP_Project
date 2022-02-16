@@ -18,7 +18,7 @@ unsigned int CompileShader(const int type, const char *source) {
     return shader;
 }
 
-void Shader::Compile(const char *vSource, const char *fSource, const char *gSource = nullptr) {
+void Shader::Compile(const char *vSource, const char *fSource, const char *gSource) {
     unsigned int vShader, fShader, gShader;
 
     { //compile shaders
@@ -66,4 +66,9 @@ void Shader::SetVector3f(const char *name, const glm::vec3 &vec, bool useShader)
     if (useShader) Use();
     glUniform3f(glGetUniformLocation(_id, name), vec.x, vec.y, vec.z);
 
+}
+
+void Shader::SetInteger(const char *name, int value, bool useShader) {
+    if (useShader) Use();
+    glUniform1i(glGetUniformLocation(_id, name), value);
 }

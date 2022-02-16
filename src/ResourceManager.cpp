@@ -3,8 +3,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <Shader.hpp>
-#include <Texture.hpp>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
+std::map<std::string, Shader> ResourceManager::_shaders{};
+std::map<std::string, Texture2D> ResourceManager::_textures{};
 
 Shader ResourceManager::LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile,
                                    const std::string &name) {
@@ -26,11 +30,11 @@ Texture2D ResourceManager::GetTexture(const std::string &name) {
 }
 
 void ResourceManager::Clear() {
-    for(auto [key,value] : _shaders) glDeleteProgram(value.GetID());
-    for(auto [key,value] : _textures) glDeleteTextures(1, &value.GetID());
+    for (auto[key, value]: _shaders) glDeleteProgram(value.GetID());
+    for (auto[key, value]: _textures) glDeleteTextures(1, &value.GetID());
 }
 
-std::string ReadFile(const std::string &file){
+std::string ReadFile(const std::string &file) {
     std::ifstream inputStream{file};
     std::stringstream sourceStream;
     sourceStream << inputStream.rdbuf();
@@ -39,11 +43,11 @@ std::string ReadFile(const std::string &file){
 
 Shader ResourceManager::LoadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile) {
     std::string vertexSource, fragmentSource, geometrySource;
-    try{
+    try {
         vertexSource = ReadFile(vShaderFile);
         fragmentSource = ReadFile(fShaderFile);
-        if(gShaderFile) geometrySource = ReadFile(gShaderFile);
-    } catch (const std::exception &ex){
+        if (gShaderFile) geometrySource = ReadFile(gShaderFile);
+    } catch (const std::exception &ex) {
         std::cerr << "ERROR failed to read shader files" << std::endl;
     }
     const char *vShaderCode = vertexSource.c_str();
@@ -51,9 +55,21 @@ Shader ResourceManager::LoadShaderFromFile(const char *vShaderFile, const char *
     const char *gShaderCode = geometrySource.c_str();
 
     Shader shader;
-    shader.Compile
+    shader.Compile(vShaderCode, fShaderCode, gShaderCode ? gShaderCode : nullptr);
+    return shader;
 }
 
 Texture2D ResourceManager::LoadTextureFromFile(const char *file, bool alpha) {
+    Texture2D texture;
 
+    if (alpha) {
+        texture.SetInternalFormat(GL_RGBA);
+        texture.SetImageFormat(GL_RGBA);
+    }
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(file, &width, &height, &nrChannels, 0);
+    texture.Generate(width, height, data);
+    stbi_image_free(data);
+    return texture;
 }

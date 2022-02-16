@@ -21,4 +21,6 @@ public:
     void SetMatrix4(const char *name, const glm::mat4 &mat, bool useShader = false);
 
     void SetVector3f(const char *name, const glm::vec3 &vec, bool useShader = false);
+
+    void SetInteger(const char *name, int value, bool useShader = false);
 };

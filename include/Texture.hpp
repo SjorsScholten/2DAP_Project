@@ -18,6 +18,14 @@ public:
         return _id;
     }
 
+    void SetInternalFormat(int format){
+        internalFormat = format;
+    }
+
+    void SetImageFormat(int format){
+        imageFormat = format;
+    }
+
     void Generate(unsigned int width, unsigned int height, unsigned char *data);
 
     void Bind() const;
